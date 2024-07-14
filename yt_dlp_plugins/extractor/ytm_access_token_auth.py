@@ -3,9 +3,11 @@ from yt_dlp.networking import Request
 
 # ⚠ The class name must end in "IE"
 class YoutubeMusicAccessTokenAuthHandlerIE(YoutubeIE, plugin_name='yt_access_token'):
+    _NETRC_MACHINE = 'youtube'
+    auth: str = ""
 
     def _inject_auth_header(self, request: Request):
-        self.write_debug("Injecting auth header")
+        self.to_screen(f"Injecting auth header {self.auth}")
         # These are only require for cookies and interfere with OAuth2
         request.headers.pop('X-Goog-PageId', None)
         request.headers.pop('X-Goog-AuthUser', None)
@@ -24,8 +26,8 @@ class YoutubeMusicAccessTokenAuthHandlerIE(YoutubeIE, plugin_name='yt_access_tok
         request.headers.update(authorization_header)
 
     def _perform_login(self, username, password):
-        self.write_debug("Performing login YTM Accesstoken")
-        self.auth = password
+        self.to_screen(f"Performing login YTM Accesstoken {username}")
+        self.auth = username
 
     def _create_request(self, *args, **kwargs):
         request = super()._create_request(*args, **kwargs)
