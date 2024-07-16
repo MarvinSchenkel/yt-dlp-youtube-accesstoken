@@ -58,5 +58,3 @@ jobs:
         with:
           user: __token__
           password: ${{ secrets.PYPI_TOKEN }}
-      - name: Wait for PyPI
-        run: sleep 300PyPI recovery codes
